@@ -95,6 +95,8 @@ class App(customtkinter.CTk):
         self.download_completed = customtkinter.CTkLabel(self, text="")
         self.download_completed.pack()
         
+        self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
+        self.goBackButton.pack(pady=100)
         
     def destroy_widgets(self):
         for widget in self.winfo_children():
