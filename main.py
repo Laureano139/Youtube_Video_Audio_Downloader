@@ -2,11 +2,10 @@ import tkinter
 import customtkinter
 from pytube import YouTube
 from tkinter import PhotoImage
+import os
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("green")
-
-# Definir path para onde salvar ficheiros (Downloads)
 
 class App(customtkinter.CTk):
 
@@ -21,11 +20,16 @@ class App(customtkinter.CTk):
     def downloadAudio(self):
         try:
         
-            link = self.insert_link_input.get()
+            link = self.link_input.get()
             youtube = YouTube(link, on_progress_callback=self.downloading)
             audio = youtube.streams.get_audio_only()
-            self.show_ProgressBar_after_click()
-            audio.download()
+            
+            self.progressPercentage.pack()
+            self.bar.pack(padx=10, pady=10)
+            
+            downloadsFolderPath = os.path.join(os.path.expanduser('~'), 'Downloads')
+            
+            audio.download(output_path=downloadsFolderPath)
             self.download_completed.configure(text="Download completed successfully!")
             
         except Exception as e:
@@ -34,11 +38,16 @@ class App(customtkinter.CTk):
 
     def downloadVideo(self):
         try:
-            link = self.insert_link_input.get()
+            link = self.link_input.get()
             youtube = YouTube(link, on_progress_callback=self.downloading)
             video = youtube.streams.get_highest_resolution()
-            self.show_ProgressBar_after_click()
-            video.download()
+            
+            self.progressPercentage.pack()
+            self.bar.pack(padx=10, pady=10)
+            
+            downloadsFolderPath = os.path.join(os.path.expanduser('~'), 'Downloads')
+            
+            video.download(downloadsFolderPath)
             self.download_completed.configure(text="Download completed successfully!")
             
         except Exception as e:
@@ -49,10 +58,10 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.insert_link = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.insert_link.configure(font=("Courier-Bold",50))
-        #self.insert_link.configure(fg="green") -> Não funfa
-        self.insert_link.pack(padx=20, pady=20)
+        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
+        self.appText.configure(font=("Courier-Bold",50))
+        self.appText.configure(text_color="green")
+        self.appText.pack(padx=20, pady=20)
         
         self.go_to_Video = customtkinter.CTkButton(self, text="Video", command=self.DownloadVideoPage, fg_color="green")
         self.go_to_Video.pack(padx=10, pady=10)
@@ -64,14 +73,14 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.insert_link = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.insert_link.configure(font=("Courier-Bold",50))
-        self.insert_link.pack(padx=20, pady=20)
+        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
+        self.appText.configure(font=("Courier-Bold",50))
+        self.appText.pack(padx=20, pady=20)
         
         # StringVar() -> Tipo de dados com features adicionais para manipular valores de widgets (Entry, Label, etc)
         self.url = tkinter.StringVar()
-        self.insert_link_input = customtkinter.CTkEntry(self, width=500, height=50, border_color="green", textvariable=self.url)
-        self.insert_link_input.pack(padx=10, pady=10)
+        self.link_input = customtkinter.CTkEntry(self, width=500, height=50, border_color="green", textvariable=self.url)
+        self.link_input.pack(padx=10, pady=10)
         
         self.downloadAudio = customtkinter.CTkButton(self, text="Download Audio", command=self.downloadAudio, fg_color="green")
         self.downloadAudio.pack(padx=10, pady=10)
@@ -94,13 +103,13 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.insert_link = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.insert_link.configure(font=("Courier-Bold",50))
-        self.insert_link.pack(padx=20, pady=20)
+        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
+        self.appText.configure(font=("Courier-Bold",50))
+        self.appText.pack(padx=20, pady=20)
         
         self.url = tkinter.StringVar()
-        self.insert_link_input = customtkinter.CTkEntry(self, width=500, height=50, border_color="green", textvariable=self.url)
-        self.insert_link_input.pack(padx=10, pady=10)
+        self.link_input = customtkinter.CTkEntry(self, width=500, height=50, border_color="green", textvariable=self.url)
+        self.link_input.pack(padx=10, pady=10)
         
         self.downloadVideo = customtkinter.CTkButton(self, text="Download Video", command=self.downloadVideo, fg_color="green")
         self.downloadVideo.pack(padx=10, pady=10)
@@ -132,10 +141,6 @@ class App(customtkinter.CTk):
         self.progressPercentage.update()
         
         self.bar.set(int(percentage) / 100)
-        
-    def show_ProgressBar_after_click(self):
-        self.progressPercentage.pack()
-        self.bar.pack(padx=10, pady=10)
 
 if __name__ == "__main__":
     yd = App()
