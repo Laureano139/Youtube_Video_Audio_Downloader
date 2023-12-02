@@ -24,8 +24,10 @@ class App(customtkinter.CTk):
             link = self.insert_link_input.get()
             youtube = YouTube(link, on_progress_callback=self.downloading)
             audio = youtube.streams.get_audio_only()
+            self.show_ProgressBar_after_click()
             audio.download()
             self.download_completed.configure(text="Download completed successfully!")
+            
         except Exception as e:
             print("Error downloading: ", e)
             self.download_completed.configure(text="Oops! Something went wrong! Please try another link!", text_color="red")
@@ -35,8 +37,10 @@ class App(customtkinter.CTk):
             link = self.insert_link_input.get()
             youtube = YouTube(link, on_progress_callback=self.downloading)
             video = youtube.streams.get_highest_resolution()
+            self.show_ProgressBar_after_click()
             video.download()
             self.download_completed.configure(text="Download completed successfully!")
+            
         except Exception as e:
             print("Error downloading: ", e)
             self.download_completed.configure(text="Oops! Something went wrong! Please try another link!", text_color="red")
@@ -77,11 +81,11 @@ class App(customtkinter.CTk):
         
         # Progress Bar
         self.progressPercentage = customtkinter.CTkLabel(self, text="0%")
-        self.progressPercentage.pack()
+        #self.progressPercentage.pack()
         
         self.bar = customtkinter.CTkProgressBar(self, width=500)
         self.bar.set(0)
-        self.bar.pack(padx=10, pady=10)
+        #self.bar.pack(padx=10, pady=10)
         
         self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
         self.goBackButton.pack(pady=100)
@@ -128,6 +132,10 @@ class App(customtkinter.CTk):
         self.progressPercentage.update()
         
         self.bar.set(int(percentage) / 100)
+        
+    def show_ProgressBar_after_click(self):
+        self.progressPercentage.pack()
+        self.bar.pack(padx=10, pady=10)
 
 if __name__ == "__main__":
     yd = App()
