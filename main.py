@@ -1,7 +1,6 @@
 import tkinter
 import customtkinter
 from pytube import YouTube
-from tkinter import PhotoImage
 import os
 
 customtkinter.set_appearance_mode("dark")
@@ -119,11 +118,11 @@ class App(customtkinter.CTk):
         
         # Progress Bar
         self.progressPercentage = customtkinter.CTkLabel(self, text="0%")
-        self.progressPercentage.pack()
+        #self.progressPercentage.pack()
         
         self.bar = customtkinter.CTkProgressBar(self, width=500)
         self.bar.set(0)
-        self.bar.pack(padx=10, pady=10)
+        #self.bar.pack(padx=10, pady=10)
         
         self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
         self.goBackButton.pack(pady=100)
