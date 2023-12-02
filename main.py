@@ -34,7 +34,12 @@ class App(customtkinter.CTk):
             
             downloadsFolderPath = os.path.join(os.path.expanduser('~'), 'Downloads')
             
-            audio.download(output_path=downloadsFolderPath)
+            audioFile = audio.download(output_path=downloadsFolderPath)
+            
+            base, ext = os.path.splitext(audioFile)
+            mp3File = base + '.mp3'
+            os.rename(audioFile, mp3File)
+            
             self.download_completed.configure(text="Download completed successfully!")
             
         except Exception as e:
@@ -79,7 +84,7 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.appText = customtkinter.CTkLabel(self, text="GeTube139")
+        self.appText = customtkinter.CTkLabel(self, text="GeTube139", text_color="green")
         self.appText.configure(font=self.ffont)
         self.appText.pack(padx=20, pady=20)
         
