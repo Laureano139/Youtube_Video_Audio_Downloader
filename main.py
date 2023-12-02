@@ -2,7 +2,6 @@ import tkinter
 import customtkinter
 from pytube import YouTube
 from tkinter import PhotoImage
-import os
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("green")
@@ -21,27 +20,26 @@ class App(customtkinter.CTk):
 
     def downloadAudio(self):
         try:
+        
             link = self.insert_link_input.get()
-            youtube = YouTube(link)
+            youtube = YouTube(link, on_progress_callback=self.downloading)
             audio = youtube.streams.get_audio_only()
             audio.download()
             self.download_completed.configure(text="Download completed successfully!")
-            #print("Download completed successfully!")
-        except:
-            #print("Youtube link may be invalid!")
-            self.download_completed.configure(text="Oops! Something went wrong!")
+        except Exception as e:
+            print("Error downloading: ", e)
+            self.download_completed.configure(text="Oops! Something went wrong! Please try another link!", text_color="red")
 
     def downloadVideo(self):
         try:
             link = self.insert_link_input.get()
-            youtube = YouTube(link)
+            youtube = YouTube(link, on_progress_callback=self.downloading)
             video = youtube.streams.get_highest_resolution()
             video.download()
             self.download_completed.configure(text="Download completed successfully!")
-            #print("Download completed successfully!")
-        except:
-            #print("Youtube link may be invalid!")
-            self.download_completed.configure(text="Oops! Something went wrong!")
+        except Exception as e:
+            print("Error downloading: ", e)
+            self.download_completed.configure(text="Oops! Something went wrong! Please try another link!", text_color="red")
             
     def HomePage(self):
         
@@ -60,8 +58,6 @@ class App(customtkinter.CTk):
         
     def DownloadAudioPage(self):
         
-        # Adicionar butões para voltar para trás
-        
         self.destroy_widgets()
         
         self.insert_link = customtkinter.CTkLabel(self, text="Youtube Downloader")
@@ -79,12 +75,18 @@ class App(customtkinter.CTk):
         self.download_completed = customtkinter.CTkLabel(self, text="")
         self.download_completed.pack()
         
+        # Progress Bar
+        self.progressPercentage = customtkinter.CTkLabel(self, text="0%")
+        self.progressPercentage.pack()
+        
+        self.bar = customtkinter.CTkProgressBar(self, width=500)
+        self.bar.set(0)
+        self.bar.pack(padx=10, pady=10)
+        
         self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
         self.goBackButton.pack(pady=100)
         
     def DownloadVideoPage(self):
-        
-        # Adicionar butões para voltar para trás
         
         self.destroy_widgets()
         
@@ -102,12 +104,30 @@ class App(customtkinter.CTk):
         self.download_completed = customtkinter.CTkLabel(self, text="")
         self.download_completed.pack()
         
+        # Progress Bar
+        self.progressPercentage = customtkinter.CTkLabel(self, text="0%")
+        self.progressPercentage.pack()
+        
+        self.bar = customtkinter.CTkProgressBar(self, width=500)
+        self.bar.set(0)
+        self.bar.pack(padx=10, pady=10)
+        
         self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
         self.goBackButton.pack(pady=100)
         
     def destroy_widgets(self):
         for widget in self.winfo_children():
             widget.destroy()
+            
+    def downloading(self, stream, chunk, bytesRemaining):
+        size = stream.filesize
+        bytesDownloaded = size - bytesRemaining
+        percentage = (bytesDownloaded / size) * 100
+        percentageString = str(int(percentage)) + "%"
+        self.progressPercentage.configure(text=percentageString)
+        self.progressPercentage.update()
+        
+        self.bar.set(int(percentage) / 100)
 
 if __name__ == "__main__":
     yd = App()
