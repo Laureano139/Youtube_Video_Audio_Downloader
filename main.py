@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import *
 import customtkinter
 from pytube import YouTube
 import os
@@ -11,8 +12,13 @@ class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
+        self.title("GeTube139")
+        self.iconbitmap("logo.ico")
         self.geometry("800x600")
-        self.title("My Youtube Downloader")
+        
+        customtkinter.FontManager.load_font("Robot-9000.ttf")
+        
+        self.ffont = customtkinter.CTkFont(family="Robot-9000", size=44, weight="bold")
         
         self.HomePage()
 
@@ -57,23 +63,24 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.appText.configure(font=("Courier-Bold",50))
+        self.appText = customtkinter.CTkLabel(self, text="GeTube139", font=self.ffont) #Fonte não está a dar
         self.appText.configure(text_color="green")
         self.appText.pack(padx=20, pady=20)
         
         self.go_to_Video = customtkinter.CTkButton(self, text="Video", command=self.DownloadVideoPage, fg_color="green")
-        self.go_to_Video.pack(padx=10, pady=10)
+        self.go_to_Video.place(x=330, y=360)
+        #self.go_to_Video.pack(padx=10, pady=10)
         
-        self.go_to_Video = customtkinter.CTkButton(self, text="Audio", command=self.DownloadAudioPage, fg_color="green")
-        self.go_to_Video.pack(padx=10, pady=10)
+        self.go_to_Audio = customtkinter.CTkButton(self, text="Audio", command=self.DownloadAudioPage, fg_color="green")
+        self.go_to_Audio.place(x=330, y=300)
+        #self.go_to_Audio.pack(padx=10, pady=10)
         
     def DownloadAudioPage(self):
         
         self.destroy_widgets()
         
-        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.appText.configure(font=("Courier-Bold",50))
+        self.appText = customtkinter.CTkLabel(self, text="GeTube139")
+        self.appText.configure(font=self.ffont)
         self.appText.pack(padx=20, pady=20)
         
         # StringVar() -> Tipo de dados com features adicionais para manipular valores de widgets (Entry, Label, etc)
@@ -102,8 +109,8 @@ class App(customtkinter.CTk):
         
         self.destroy_widgets()
         
-        self.appText = customtkinter.CTkLabel(self, text="Youtube Downloader")
-        self.appText.configure(font=("Courier-Bold",50))
+        self.appText = customtkinter.CTkLabel(self, text="GeTube139")
+        self.appText.configure(font=self.ffont)
         self.appText.pack(padx=20, pady=20)
         
         self.url = tkinter.StringVar()
