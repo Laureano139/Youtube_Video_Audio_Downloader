@@ -1,6 +1,8 @@
 import tkinter
 import customtkinter
 from pytube import YouTube
+from tkinter import PhotoImage
+import os
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("green")
@@ -43,6 +45,8 @@ class App(customtkinter.CTk):
             
     def HomePage(self):
         
+        self.destroy_widgets()
+        
         self.insert_link = customtkinter.CTkLabel(self, text="Youtube Downloader")
         self.insert_link.configure(font=("Courier-Bold",50))
         #self.insert_link.configure(fg="green") -> Não funfa
@@ -74,6 +78,9 @@ class App(customtkinter.CTk):
         
         self.download_completed = customtkinter.CTkLabel(self, text="")
         self.download_completed.pack()
+        
+        self.goBackButton = customtkinter.CTkButton(self, text="Back", command=self.HomePage, fg_color="green")
+        self.goBackButton.pack(pady=100)
         
     def DownloadVideoPage(self):
         
