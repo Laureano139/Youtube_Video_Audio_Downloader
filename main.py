@@ -1,3 +1,4 @@
+
 import tkinter
 from tkinter import *
 import customtkinter
@@ -6,6 +7,8 @@ import os
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("green")
+
+# Escolher pasta de destino
 
 class App(customtkinter.CTk):
 
@@ -24,7 +27,7 @@ class App(customtkinter.CTk):
 
     def downloadAudio(self):
         try:
-        
+            
             link = self.link_input.get()
             youtube = YouTube(link, on_progress_callback=self.downloading)
             audio = youtube.streams.get_audio_only()
@@ -99,6 +102,8 @@ class App(customtkinter.CTk):
         self.download_completed = customtkinter.CTkLabel(self, text="")
         self.download_completed.pack()
         
+        curr_user = os.getlogin()
+            
         # Progress Bar
         self.progressPercentage = customtkinter.CTkLabel(self, text="0%")
         #self.progressPercentage.pack()
